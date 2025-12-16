@@ -1,6 +1,25 @@
 {
     "name": "structured-table-cli",
     "version": "0.1.0",
+    "description": "CLI tool for installing and managing Structured Table Language (STL) renderers.",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/ameghcoder/structured-table/blob/main/LICENSE"
+        }
+    ],
+    "author": {
+        "name": "Yashraj Yadav",
+        "url": "https://github.com/ameghcoder"
+    },
+    "keywords": [
+        "cli",
+        "structured-table",
+        "scaffold",
+        "react-component",
+        "table",
+        "ui"
+    ],
     "type": "module",
     "main": "dist/cli.js",
     "bin": {
@@ -13,6 +32,15 @@
         "commander": "^11.0.0",
         "fs-extra": "^11.2.0"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ameghcoder/structured-table",
+        "directory": "packages/structured-table-cli"
+    },
+    "bugs": {
+        "url": "https://github.com/ameghcoder/structured-table/issues"
+    },
+    "homepage": "https://github.com/ameghcoder/structured-table/tree/main/packages/structured-table-cli",
     "scripts": {
         "build": "tsc",
         "dev": "tsc && node dist/cli.js",
