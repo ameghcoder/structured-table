@@ -1,0 +1,56 @@
+{
+    "name": "structured-table",
+    "version": "0.1.0",
+    "description": "Structured, themeable, SSR-friendly tables for React and Sanity.",
+    "license": "MIT",
+    "author": {
+        "name": "Yashraj Yadav",
+        "url": "https://github.com/ameghcoder"
+    },
+    "keywords": [
+        "react",
+        "table",
+        "structured-data",
+        "ssr",
+        "ui-component",
+        "sanity tables"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ameghcoder/structured-table"
+    },
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "dev": "tsup --watch",
+        "clean": "rimraf dist",
+        "prepublishOnly": "npm run build"
+    },
+    "peerDependencies": {
+        "react": ">=18",
+        "react-dom": ">=18"
+    },
+    "devDependencies": {
+        "@types/node": "^25.0.2",
+        "@types/react": "^19.2.7",
+        "rimraf": "^6.1.2",
+        "tsup": "^8.5.1",
+        "typescript": "^5.4.0"
+    },
+    "dependencies": {
+        "nanoid": "^5.1.6"
+    }
+}

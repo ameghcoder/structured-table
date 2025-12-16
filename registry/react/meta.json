@@ -1,0 +1,34 @@
+{
+    "name": "react-renderer",
+    "framework": "react",
+    "dependencies": [
+        {
+            "package": "structured-table",
+            "version": "0.1.0"
+        }
+    ],
+    "rendererVersion": {
+        "latest": "v1",
+        "v1": "v1"
+    },
+    "entry": {
+        "table": "index.tsx"
+    },
+    "files": [
+        "register/index.ts",
+        "index.tsx",
+        "style.css",
+        "table/TableView.tsx",
+        "cell/index.tsx",
+        "cell/TextCell.tsx",
+        "cell/LinkCell.tsx",
+        "cell/ButtonCell.tsx"
+    ],
+    "constraints": {
+        "ssr": true,
+        "rscCompatible": true,
+        "requiresClientComponents": [
+            "cell/ButtonCell.tsx"
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "structured-table-cli",
+    "version": "0.1.0",
+    "type": "module",
+    "main": "dist/cli.js",
+    "bin": {
+        "stl-cli": "./dist/cli.js"
+    },
+    "files": [
+        "dist"
+    ],
+    "dependencies": {
+        "commander": "^11.0.0",
+        "fs-extra": "^11.2.0"
+    },
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc && node dist/cli.js",
+        "start": "node dist/cli.js"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^11.0.4",
+        "@types/node": "^25.0.2",
+        "typescript": "^5.3.0"
+    }
+}
