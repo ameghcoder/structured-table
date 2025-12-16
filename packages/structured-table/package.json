@@ -1,6 +1,6 @@
 {
     "name": "structured-table",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Structured, themeable, SSR-friendly tables for React and Sanity.",
     "licenses": [
         {
@@ -49,13 +49,7 @@
         "clean": "rimraf dist",
         "prepublishOnly": "npm run build"
     },
-    "peerDependencies": {
-        "react": ">=18",
-        "react-dom": ">=18"
-    },
     "devDependencies": {
-        "@types/node": "^25.0.2",
-        "@types/react": "^19.2.7",
         "rimraf": "^6.1.2",
         "tsup": "^8.5.1",
         "typescript": "^5.4.0"
