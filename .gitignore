@@ -16,3 +16,8 @@ yarn-error.log*
 Thumbs.db
 .idea/
 .vscode/
+
+# zip / tar files
+**/*.zip
+**/*.tar
+**/*.tar.gz
