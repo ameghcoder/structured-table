@@ -1,6 +1,6 @@
 # Structured Table Project
 
-![STL Banner](./apps/web/public/assets/banner/STL.webp "STL Banner")
+![STL Banner](./img/STL.webp "STL Banner")
 
 > **Structured, themeable, SSR-friendly tables for React and modern web applications.**
 
