@@ -1,4 +1,10 @@
 import { TypographyBlockCode, TypographyH1, TypographyH2, TypographyH3, TypographyLarge, TypographyList, TypographyP } from "@/components/ui/typography";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Row & Col Spanning",
+    description: "Create complex table layouts with rowSpan and colSpan attributes in STL.",
+};
 
 export default function SpanningPage() {
     return (

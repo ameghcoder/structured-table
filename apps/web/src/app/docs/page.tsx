@@ -1,4 +1,10 @@
 import { TypographyBlockCode, TypographyBlockquote, TypographyH1, TypographyH2, TypographyList, TypographyP } from "@/components/ui/typography";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Introduction",
+    description: "Learn about Structured Table (STL), a schema-driven engine for easy, consistent, and performant table management in headless applications.",
+};
 
 export default function IntroductionPage() {
     return (

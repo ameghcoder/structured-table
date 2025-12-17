@@ -1,4 +1,10 @@
 import TableEditor from "@/components/layout/table-editor"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Playground",
+    description: "Try out the Structured Table Language (STL) in our interactive playground. Write STL code and see the table render in real-time.",
+};
 
 const Page = async () => {
     return (

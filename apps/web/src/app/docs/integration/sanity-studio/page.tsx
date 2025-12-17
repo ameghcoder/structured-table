@@ -1,4 +1,11 @@
 import { TypographyH1, TypographyH2, TypographyH3, TypographyP, TypographyBlockCode, TypographyInlineCode, TypographyLink, TypographyMuted } from "@/components/ui/typography"
+import { ShowYouTubeVideo } from "@/components/ui/youtube-video";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Sanity Studio Integration",
+  description: "Integrate Structured Table into Sanity Studio to empower content editors with a spreadsheet-like interface for managing tables.",
+};
 
 export default function SanityStudioIntegrationPage() {
   return (
@@ -111,6 +118,10 @@ export default {
       <TypographyP>
         Restart your Sanity dev server. You will now see an input field where you can paste or write your <TypographyInlineCode>STL</TypographyInlineCode> code.
       </TypographyP>
+      <TypographyP>
+        Check following video to Learn how to use block inside Sanity Studio.
+      </TypographyP>
+      <ShowYouTubeVideo videoId="IVxWN7TVP2I" />
       <TypographyP>
         The table preview will update automatically below user input as you type, giving you immediate response on your table structure and content.
       </TypographyP>

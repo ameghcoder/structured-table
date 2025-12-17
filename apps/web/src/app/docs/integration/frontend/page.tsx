@@ -1,5 +1,11 @@
 import { TypographyH1, TypographyH2, TypographyH3, TypographyP, TypographyList, TypographyBlockCode, TypographyInlineCode, TypographyLink, TypographyMuted } from "@/components/ui/typography"
 import Link from "next/link"
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Frontend Integration",
+    description: "Learn how to render Structured Table (STL) data on your frontend using our React components.",
+};
 
 export default function FrontendIntegrationPage() {
     return (

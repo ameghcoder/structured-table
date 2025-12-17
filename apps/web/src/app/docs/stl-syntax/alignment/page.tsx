@@ -1,4 +1,10 @@
 import { TypographyBlockCode, TypographyH1, TypographyH2, TypographyH3, TypographyLarge, TypographyList, TypographyP } from "@/components/ui/typography";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Text Alignment",
+    description: "Control horizontal alignment in your tables with STL's align attribute.",
+};
 
 export default function AlignmentPage() {
     return (

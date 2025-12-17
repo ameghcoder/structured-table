@@ -1,4 +1,10 @@
 import { TypographyBlockCode, TypographyLink, TypographyList, TypographyP } from "@/components/ui/typography";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "STL Syntax",
+    description: "Master the Structured Table Language (STL) syntax. Learn how to define tables, headers, footers, cells, buttons, and links.",
+};
 
 export default function StlSyntaxPage() {
     return (

@@ -1,4 +1,10 @@
 import { TypographyBlockCode, TypographyH1, TypographyH2, TypographyH3, TypographyLarge, TypographyList, TypographyP } from "@/components/ui/typography";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Buttons in STL",
+    description: "Add interactive buttons to your tables with Structured Table Language. Support for actions, navigation, and styling.",
+};
 
 export default function ButtonsPage() {
     return (
