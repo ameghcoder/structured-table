@@ -1,4 +1,4 @@
-import { TypographyH1, TypographyH2, TypographyH3, TypographyP, TypographyList, TypographyBlockCode, TypographyInlineCode, TypographyLink, TypographyMuted } from "@/components/ui/typography"
+import { TypographyH1, TypographyH2, TypographyP, TypographyList, TypographyBlockCode, TypographyInlineCode, TypographyLink } from "@/components/ui/typography"
 import Link from "next/link"
 import { Metadata } from 'next';
 
@@ -19,8 +19,11 @@ export default function FrontendIntegrationPage() {
             <TypographyP>
                 Install the core package and the CLI, then generate the React components.
             </TypographyP>
-            <TypographyBlockCode lang="cmd">
-                npm install structured-table structured-table-cli && npx stl-cli add react
+            <TypographyBlockCode lang="first command">
+                npm install structured-table structured-table-cli
+            </TypographyBlockCode>
+            <TypographyBlockCode lang="second command">
+                npx stl-cli add react
             </TypographyBlockCode>
 
             <TypographyH2 className="mt-10">2. Include CSS</TypographyH2>
