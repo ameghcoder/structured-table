@@ -17,7 +17,7 @@ const Footer = () => {
                                     src="/assets/logo/sanity-table-bg.png"
                                     alt="Sanity Table Logo"
                                 />
-                                <span className="font-semibold">Sanity Tables</span>
+                                <span className="font-semibold">Structured Tables</span>
                             </div>
                             <span className="text-sm text-center sm:text-left">
                                 Fast, free and open source. <br />Write in STL (Structured Table Language), render anywhere.

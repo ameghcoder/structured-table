@@ -23,8 +23,8 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://stl-table.vercel.app'),
   title: {
-    default: "Structured Table - Write in STL, Render Anywhere",
-    template: "%s | Structured Table"
+    default: "Structured Tables - Write in STL, Render Anywhere",
+    template: "%s | Structured Tables"
   },
   description: "A framework-agnostic, schema-driven approach to building complex tables. Write in STL (Structured Table Language), render anywhere.",
   openGraph: {

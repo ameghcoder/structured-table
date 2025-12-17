@@ -35,7 +35,7 @@ const Header = () => {
                         <Link href="/" className="flex items-center gap-2 group">
                             <img className='size-12 border border-border rounded-2xl' src="/assets/logo/sanity-table-bg.png" alt='Sanity Table Logo' />
                             <span className="text-lg font-semibold tracking-tight hidden sm:block">
-                                Sanity Tables
+                                Structured Tables
                             </span>
                         </Link>
                     </div>

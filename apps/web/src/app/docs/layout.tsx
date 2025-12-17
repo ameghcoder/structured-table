@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Book, FileText, ChevronDown, Code, Layers, Layout, Zap, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft } from 'lucide-react'
+import { Book, FileText, ChevronDown, Code, Layers, Layout, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
@@ -34,7 +34,7 @@ const docsNavigation = [
 ]
 
 const versions = [
-    { label: 'v1.0.0', value: 'v1', current: true },
+    { label: 'v0.1.1', value: 'v1', current: true },
 ]
 
 export default function DocsLayout({
