@@ -1,0 +1,18 @@
+#table
+# This is the STL - stands for (Structured Table Format)
+name: Comparison Table
+cols: 4
+showSerialIndex: true
+
+[header]
+Title | Feature | Value | CTA
+
+[body]
+Plan A | Fast               | 120ms | [button text="Buy" url="/buy-a"]
+Plan B | Medium{colSpan=2}  | [link text="Learn More" href="/plans/b"]
+Plan B | Medium             | 200ms | [link text="Learn More" href="/plans/b"]
+
+[footer]
+Note | * | * | Data updated weekly
+
+#endtable

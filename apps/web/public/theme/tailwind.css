@@ -1,0 +1,99 @@
+.st-theme-tailwind {
+    table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        font-size: 0.875rem;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    }
+
+    thead {
+        tr {
+            background: linear-gradient(to bottom, var(--color-muted), var(--color-muted));
+        }
+
+        th {
+            padding: 0.875rem 1.25rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: var(--color-foreground);
+            border-bottom: 2px solid var(--color-border);
+        }
+    }
+
+    tbody {
+        tr {
+            background-color: var(--color-background);
+            transition: background-color 0.15s ease-in-out;
+
+            &:hover {
+                background-color: var(--color-accent);
+            }
+
+            &:not(:last-child) {
+                border-bottom: 1px solid var(--color-border);
+            }
+        }
+
+        td {
+            padding: 1rem 1.25rem;
+            color: var(--color-foreground);
+        }
+    }
+
+    tfoot {
+        tr {
+            background-color: var(--color-muted);
+        }
+
+        th {
+            padding: 0.875rem 1.25rem;
+            font-weight: 600;
+            color: var(--color-foreground);
+            border-top: 2px solid var(--color-border);
+        }
+    }
+
+    button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        transition: all 0.2s;
+
+        &[data-variant="default"] {
+            background-color: var(--color-foreground);
+            color: var(--color-background);
+            border: 1px solid var(--color-foreground);
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+
+        &[data-variant="outline"] {
+            background-color: transparent;
+            color: var(--color-foreground);
+            border: 1px solid var(--color-border);
+
+            &:hover {
+                background-color: var(--color-muted);
+            }
+        }
+
+        &[data-variant="ghost"] {
+            background-color: transparent;
+            color: var(--color-foreground);
+            border: 1px solid transparent;
+
+            &:hover {
+                background-color: var(--color-muted);
+            }
+        }
+    }
+}

@@ -1,0 +1,80 @@
+.st-theme-simple {
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 0.875rem;
+    }
+
+    thead {
+        tr {
+            background-color: transparent;
+        }
+    }
+
+    tbody {
+        tr {
+            background-color: transparent;
+        }
+    }
+
+    tfoot {
+        tr {
+            background-color: transparent;
+        }
+    }
+
+    td,
+    th {
+        padding: 0.75rem 1rem;
+        text-align: left;
+        border: none;
+    }
+
+    th {
+        font-weight: 600;
+        color: var(--color-foreground);
+    }
+
+    td {
+        color: var(--color-foreground);
+    }
+
+    button {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        transition: all 0.2s;
+
+        &[data-variant="default"] {
+            background-color: var(--color-foreground);
+            color: var(--color-background);
+            border: 1px solid var(--color-foreground);
+
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+
+        &[data-variant="outline"] {
+            background-color: transparent;
+            color: var(--color-foreground);
+            border: 1px solid var(--color-foreground);
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+
+        &[data-variant="ghost"] {
+            background-color: transparent;
+            color: var(--color-foreground);
+            border: 1px solid transparent;
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+    }
+}

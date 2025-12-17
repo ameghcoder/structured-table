@@ -18,6 +18,8 @@ Thumbs.db
 .vscode/
 
 # zip / tar files
-**/*.zip
-**/*.tar
-**/*.tar.gz
+**.zip
+**.tar
+**.tgz
+**.taz
+**.tar.gz

@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tailwind CSS v4 Configuration */
+/* Tailwind CSS v4 Configuration */
+@theme {
+  --color-radius-sm: calc(var(--radius) - 4px);
+  --color-radius-md: calc(var(--radius) - 2px);
+  --color-radius-lg: var(--radius);
+  --color-radius-xl: calc(var(--radius) + 4px);
+
+  /* Premium clean base - improved contrast */
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.15 0 0);
+
+  /* Elevated smooth surfaces */
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.15 0 0);
+
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.15 0 0);
+
+  /* Premium gold primary - enhanced visibility */
+  --color-primary: oklch(0.65 0.15 85);
+  --color-primary-foreground: oklch(0.98 0 0);
+
+  /* Clean secondary */
+  --color-secondary: oklch(0.96 0 0);
+  --color-secondary-foreground: oklch(0.20 0 0);
+
+  /* Muted with better contrast */
+  --color-muted: oklch(0.96 0 0);
+  --color-muted-foreground: oklch(0.45 0 0);
+
+  /* Elegant accent */
+  --color-accent: oklch(0.95 0.02 85);
+  --color-accent-foreground: oklch(0.15 0 0);
+
+  /* Premium destructive */
+  --color-destructive: oklch(0.55 0.22 25);
+  --color-destructive-foreground: oklch(0.98 0 0);
+
+  /* Borders with better definition */
+  --color-border: oklch(0.88 0 0);
+  --color-input: oklch(0.88 0 0);
+
+  /* Highlight ring */
+  --color-ring: oklch(0.65 0.15 85);
+
+  /* Charts – elegant muted jewel tones */
+  --color-chart-1: oklch(0.68 0.24 280);
+  --color-chart-2: oklch(0.74 0.18 160);
+  --color-chart-3: oklch(0.65 0.11 40);
+  --color-chart-4: oklch(0.70 0.18 300);
+  --color-chart-5: oklch(0.72 0.15 20);
+
+  /* Sidebar – clean and bright with premium detail */
+  --color-sidebar: oklch(0.98 0 0);
+  --color-sidebar-foreground: oklch(0.15 0 0);
+
+  --color-sidebar-primary: oklch(0.65 0.15 85);
+  --color-sidebar-primary-foreground: oklch(0.98 0 0);
+
+  --color-sidebar-accent: oklch(0.95 0.02 85);
+  --color-sidebar-accent-foreground: oklch(0.15 0 0);
+
+  --color-sidebar-border: oklch(0.88 0 0);
+  --color-sidebar-ring: oklch(0.65 0.15 85);
+}
+
+.dark {
+  --color-radius-sm: calc(var(--radius) - 4px);
+  --color-radius-md: calc(var(--radius) - 2px);
+  --color-radius-lg: var(--radius);
+  --color-radius-xl: calc(var(--radius) + 4px);
+
+  /* Deep premium base */
+  --color-background: oklch(0.12 0 0);
+  --color-foreground: oklch(0.98 0 0);
+
+  /* Premium layered surfaces */
+  --color-card: oklch(0.15 0 0);
+  --color-card-foreground: oklch(0.98 0 0);
+
+  --color-popover: oklch(0.15 0 0);
+  --color-popover-foreground: oklch(0.98 0 0);
+
+  /* Luxury gold primary - enhanced for dark mode */
+  --color-primary: oklch(0.75 0.14 85);
+  --color-primary-foreground: oklch(0.12 0 0);
+
+  /* Rich secondary */
+  --color-secondary: oklch(0.22 0 0);
+  --color-secondary-foreground: oklch(0.98 0 0);
+
+  /* Muted with clarity */
+  --color-muted: oklch(0.20 0 0);
+  --color-muted-foreground: oklch(0.70 0 0);
+
+  /* Elegant accent */
+  --color-accent: oklch(0.25 0.02 85);
+  --color-accent-foreground: oklch(0.98 0 0);
+
+  /* Premium destructive */
+  --color-destructive: oklch(0.58 0.20 25);
+  --color-destructive-foreground: oklch(0.98 0 0);
+
+  /* Borders with definition */
+  --color-border: oklch(0.25 0 0);
+  --color-input: oklch(0.25 0 0);
+
+  /* Highlight ring */
+  --color-ring: oklch(0.75 0.14 85);
+
+  /* Charts – premium muted jewel tones */
+  --color-chart-1: oklch(0.60 0.26 280);
+  --color-chart-2: oklch(0.72 0.20 160);
+  --color-chart-3: oklch(0.68 0.12 40);
+  --color-chart-4: oklch(0.58 0.18 300);
+  --color-chart-5: oklch(0.64 0.15 20);
+
+  /* Sidebar – darker and richer */
+  --color-sidebar: oklch(0.12 0 0);
+  --color-sidebar-foreground: oklch(0.98 0 0);
+
+  --color-sidebar-primary: oklch(0.75 0.14 85);
+  --color-sidebar-primary-foreground: oklch(0.12 0 0);
+
+  --color-sidebar-accent: oklch(0.25 0.02 85);
+  --color-sidebar-accent-foreground: oklch(0.98 0 0);
+
+  --color-sidebar-border: oklch(0.25 0 0);
+  --color-sidebar-ring: oklch(0.75 0.14 85);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  p,
+  strong,
+  blockquote,
+  li {
+    @apply text-foreground/80;
+  }
+}
+
+/* Grid Pattern Background */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to bottom, currentColor 1px, transparent 1px);
+  background-size: 24px 24px;
+}
