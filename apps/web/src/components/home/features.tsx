@@ -35,7 +35,7 @@ const features = [
 
 export function Features() {
     return (
-        <section className="py-24 bg-muted/30">
+        <section className="py-24 relative">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">Why Structured Table?</h2>
@@ -48,9 +48,9 @@ export function Features() {
                     {features.map((feature, index) => (
                         <div
                             key={index}
-                            className="group p-8 rounded-2xl bg-background border hover:border-primary/50 transition-colors duration-300 relative overflow-hidden"
+                            className="group p-8 rounded-2xl bg-card border hover:border-primary/50 transition-colors duration-300 relative overflow-hidden"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="relative z-10">
                                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary mb-6 group-hover:scale-110 transition-transform duration-300">
                                     <feature.icon className="h-6 w-6" />

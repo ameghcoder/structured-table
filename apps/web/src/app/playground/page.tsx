@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const Page = async () => {
     return (
-        <div className="w-full mx-auto">
+        <div className="w-full mx-auto max-w-7xl">
             <div className="w-full h-full min-h-screen p-2 md:p-4 lg:p-8">
                 <TableEditor />
             </div>

@@ -66,10 +66,11 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body
-        className={`${robotoMono.className} antialiased`}
+        className={`${robotoMono.className} antialiased relative`}
       >
         <ThemeProviders>
           <Header />
+
           {children}
           <Footer />
         </ThemeProviders>

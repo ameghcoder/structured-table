@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Book, FileText, ChevronDown, Code, Layers, Layout, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft } from 'lucide-react'
+import { Book, FileText, ChevronDown, Code, Layers, Layout, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft, Monitor } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
@@ -22,6 +22,14 @@ const docsNavigation = [
             { title: 'Links', href: '/docs/stl-syntax/links', icon: LinkIcon },
             { title: 'Row & Col Span', href: '/docs/stl-syntax/spanning', icon: Maximize2 },
             { title: 'Alignment', href: '/docs/stl-syntax/alignment', icon: AlignLeft },
+        ],
+    },
+    {
+        title: 'STL Renderers',
+        items: [
+            { title: 'Overview', href: '/docs/stl-renderer', icon: Monitor },
+            { title: 'React', href: '/docs/stl-renderer/react', icon: Code },
+            { title: 'Vue', href: '/docs/stl-renderer/vue', icon: Layout },
         ],
     },
     {
@@ -52,7 +60,7 @@ export default function DocsLayout({
     }
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background ">
             {/* Docs Header */}
             <div className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -108,7 +116,7 @@ export default function DocsLayout({
                                                 <li key={item.href}>
                                                     <Link
                                                         href={item.href}
-                                                        className={`flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors ${active
+                                                        className={`flex items-center gap-2.5 rounded-2xl px-2 py-1.5 text-sm transition-colors ${active
                                                             ? 'bg-primary/10 text-primary font-medium'
                                                             : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                                                             }`}

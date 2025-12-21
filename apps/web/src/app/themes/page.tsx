@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Copy, Check, Loader, X, Code } from 'lucide-react'
 import { Palette } from 'lucide-react'
 import { BasicFormat } from '@/stl/basic-format'
-import { TypographyBlockCode, TypographyH1, TypographyH3, TypographyLarge, TypographyP } from '@/components/ui/typography'
+import { TypographyBlockCode, TypographyH1, TypographyLarge, TypographyP } from '@/components/ui/typography'
 import { STLTablePreview } from '@/components/layout/stl-table-preview'
 
 export const themes: { name: string; url: string; value: string; description: string }[] = [
@@ -64,7 +64,7 @@ export default function ThemePage() {
     }
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background ">
             {/* Load Theme CSS files for preview */}
             {themes.map((theme) => (
                 <link key={theme.value} rel="stylesheet" href={theme.url} />
@@ -81,7 +81,7 @@ export default function ThemePage() {
                         Choose from our collection of beautiful table themes. Each theme is designed to match different design systems and use cases.
                     </TypographyP>
                     <TypographyP >
-                        Our table component auto prepend the 'st-table' class to the table element. So, when you pass the 'border' className in the component it will be used as 'st-table-border'.
+                        Our table component auto prepend the &apos;st-table&apos; class to the table element. So, when you pass the &apos;border&apos; className in the component it will be used as &apos;st-table-border&apos;.
                     </TypographyP>
                 </div>
 
@@ -102,10 +102,10 @@ export default function ThemePage() {
                                         </p>
                                     </div>
                                     <Button
-                                        variant="outline"
+                                        variant="default"
                                         size="sm"
                                         onClick={() => handleShowCSS(theme.value)}
-                                        className="gap-2"
+                                        className="gap-2 rounded-2xl"
                                     >
                                         {loading ? (
                                             <>

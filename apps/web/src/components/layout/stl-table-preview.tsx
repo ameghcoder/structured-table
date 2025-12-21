@@ -14,7 +14,7 @@ export function STLTablePreview({
     return (
         <>
             <STLTableClient />
-            <div className="p-6 bg-background">
+            <div className=" bg-background">
                 <div className="overflow-x-auto">
                     <STLReact.Table
                         data={table}

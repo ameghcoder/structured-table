@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Code } from 'lucide-react'
 import { SanityTable } from 'structured-table'
 import { STL } from 'structured-table'
 import { Button } from '@/components/ui/button'
+import { extractErrorMsg } from '@/utils/extract-error-msg'
 
 interface StlCodeEditorProps {
     table: SanityTable
@@ -13,19 +14,14 @@ interface StlCodeEditorProps {
 }
 
 export function StlCodeEditor({ table, setTable, handleGenerateStl }: StlCodeEditorProps) {
-    const [stlCode, setStlCode] = useState<string>('')
-    const [parseError, setParseError] = useState<string | null>(null)
-
-    // Sync state when mounting
-    useEffect(() => {
+    const [stlCode, setStlCode] = useState<string>(() => {
         try {
-            const code = STL.stringify(table)
-            setStlCode(code)
-            setParseError(null)
-        } catch (e) {
-            console.error("Failed to stringify table", e)
+            return STL.stringify(table)
+        } catch {
+            return ''
         }
-    }, [])
+    })
+    const [parseError, setParseError] = useState<string | null>(null)
 
     const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newCode = e.target.value
@@ -34,13 +30,13 @@ export function StlCodeEditor({ table, setTable, handleGenerateStl }: StlCodeEdi
             const parsed = STL.parse(newCode)
             setTable(parsed)
             setParseError(null)
-        } catch (err: any) {
-            setParseError(err.message || "Invalid STL format")
+        } catch (err) {
+            setParseError(extractErrorMsg(err))
         }
     }
 
     return (
-        <div className="flex flex-col gap-4 p-3 sm:p-4 border rounded-lg bg-card shadow-sm h-[600px]">
+        <div className="flex flex-col gap-4 p-3 sm:p-4 border rounded-2xl bg-secondary shadow-sm h-150">
             <div className="flex items-center justify-between border-b pb-3">
                 <div className="flex items-center gap-2">
                     <Code className="h-5 w-5 text-primary" />
@@ -61,7 +57,7 @@ export function StlCodeEditor({ table, setTable, handleGenerateStl }: StlCodeEdi
             <textarea
                 value={stlCode}
                 onChange={handleCodeChange}
-                className="flex-1 w-full bg-muted/50 font-mono text-sm p-4 rounded-md border resize-none focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="flex-1 w-full bg-background font-mono text-sm p-4 rounded-xl border resize-none focus:outline-none focus:ring-2 focus:ring-primary/20"
                 placeholder="#table..."
                 spellCheck={false}
             />

@@ -31,7 +31,7 @@ const TableView = ({
         <div className={`st-theme-${className}`} >
             <table>
                 {
-                    data.header &&
+                    data.header && data.header.cells.length > 0 &&
                     <thead>
                         <tr>
                             {data.showSerialIndex && <th >#</th>}

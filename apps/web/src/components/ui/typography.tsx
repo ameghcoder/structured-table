@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils"
-import { Copy } from "lucide-react"
 import Link from "next/link"
-import { Button } from "./button"
 import { CopyButton } from "../layout/copy-button"
 
 export function TypographyBlockquote({ children }: { children: React.ReactNode }) {
@@ -20,16 +18,16 @@ export function TypographyInlineCode({ children }: { children: React.ReactNode }
     )
 }
 
-export function TypographyBlockCode({ children, lang, langAlign = 'left', className, previewClassName }: { children: React.ReactNode, lang?: string, langAlign?: 'left' | 'right' | 'center', className?: string, previewClassName?: string }) {
+export function TypographyBlockCode({ children, lang, langAlign = 'left', className, previewClassName, copyBtnClassName }: { children: React.ReactNode; lang?: string; langAlign?: 'left' | 'right' | 'center'; className?: string; previewClassName?: string; copyBtnClassName?: string; }) {
     return (
-        <code className={cn("w-full h-full block bg-muted my-4 relative rounded-2xl border border-border whitespace-pre font-mono text-sm font-semibold overflow-hidden relative", className)}>
+        <code className={cn("w-full h-full block bg-muted my-4 rounded-2xl border border-border whitespace-pre font-mono text-sm font-semibold overflow-hidden relative", className)}>
             {
                 lang &&
                 <div className={cn("bg-accent px-4 py-1", langAlign === "left" ? "text-left" : langAlign === "right" ? "text-right" : "text-center")}>
                     {lang}
                 </div>
             }
-            <div className="absolute top-0 right-0 size-8 p-0 flex items-center justify-center bg-background rounded-bl-2xl cursor-pointer hover:bg-primary/50">
+            <div className={`absolute top-0 right-0 size-8 p-0 flex items-center justify-center bg-background rounded-bl-2xl cursor-pointer hover:bg-primary/50 ${copyBtnClassName}`}>
                 <CopyButton data={children} />
             </div>
             <div className={`px-4 py-4 w-full overflow-x-auto ${previewClassName}`}>

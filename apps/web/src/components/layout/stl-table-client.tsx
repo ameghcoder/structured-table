@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 
 const STLTableClient = () => {
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleTableAction = (e: any) => {
             const { action, targetId } = e.detail;
             alert(`Action: ${action}\nID: ${targetId}`)
