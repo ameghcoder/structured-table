@@ -59,19 +59,17 @@ npx stl-cli add react --path ./src/ui/table
 
 ## How It Works
 
-1.  **Detection**: The CLI automatically detects your project's framework (e.g., Next.js, React, Vue) and package manager (npm, pnpm, yarn, bun).
-2.  **Validation**: It ensures the requested renderer is compatible with your detected framework.
-3.  **Dependency Check**: It checks your `package.json` for required dependencies (like `structured-table` core and dependencies specific to the renderer) and installs them if missing.
+1.  **Dynamic Detection**: The CLI fetches the latest supported framework list from our central registry and automatically detects which one your project is using by scanning your `package.json`.
+2.  **Validation**: It ensures the requested renderer is compatible with your project's framework.
+3.  **Dependency Check**: It checks your `package.json` for required dependencies and installs them if missing.
 4.  **Scaffolding**: It fetches the component source code from the remote registry and places it into your project.
-    - Default location: `src/components/stl-render-{renderer}/{version}/`
+    - Default location: `./src/components/` or `./components/`
 
 ## Supported Frameworks
 
-Currently, the CLI supports the following renderers:
+We are constantly adding support for new frameworks. To see the most up-to-date list of supported frameworks, check the [supported.json](https://github.com/ameghcoder/structured-table/blob/main/registry/supported.json) in our main repository.
 
-- **React** (`react`): Full features, SSR compatible, Server Components support.
-
-*(More frameworks like Vue and Svelte are planned).*
+Any framework listed in that array can be installed directly using our CLI (e.g., `npx stl-cli add react`, `npx stl-cli add vue`).
 
 ## Registry
 
