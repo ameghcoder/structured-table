@@ -1,5 +1,6 @@
 {
     "supported": [
-        "react"
+        "react",
+        "vue"
     ]
 }

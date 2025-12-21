@@ -1,0 +1,30 @@
+{
+    "name": "vue-renderer",
+    "framework": "vue",
+    "dependencies": [
+        {
+            "package": "structured-table",
+            "version": "0.1.1"
+        }
+    ],
+    "rendererVersion": {
+        "latest": "v1",
+        "v1": "v1"
+    },
+    "entry": {
+        "table": "index.ts"
+    },
+    "files": [
+        "register/index.ts",
+        "index.ts",
+        "style.css",
+        "table/TableView.vue",
+        "cell/index.ts",
+        "cell/TextCell.vue",
+        "cell/LinkCell.vue",
+        "cell/ButtonCell.vue"
+    ],
+    "constraints": {
+        "ssr": true
+    }
+}
