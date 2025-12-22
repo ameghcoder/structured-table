@@ -9,7 +9,7 @@ showSerialIndex: true
 Title | Feature | Value | CTA
 
 [body]
-Plan A | Fast   | 120ms | [button text="Buy" action="click" variant="outline"]
+Plan A | Fast   | 120ms | [button text="Buy" action="click" targetId="001" variant="default"]
 Plan B | Medium | 20ms  | [link text="Learn More" href="/docs"]
 
 [footer]

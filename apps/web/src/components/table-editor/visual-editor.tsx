@@ -739,11 +739,19 @@ export function VisualEditor({ table, setTable, tableTheme, setTableTheme, handl
                                                     </div>
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Target ID / URL</label>
+                                                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Target ID</label>
                                                     <Input
-                                                        value={cell.url || cell.targetId || ''}
-                                                        onChange={(e) => updateCell(cellUid, rowUid, section, (c) => ({ ...c, url: e.target.value, targetId: e.target.value } as ButtonCellProps))}
-                                                        placeholder="#target or /url"
+                                                        value={cell.targetId || ''}
+                                                        onChange={(e) => updateCell(cellUid, rowUid, section, (c) => ({ ...c, targetId: e.target.value } as ButtonCellProps))}
+                                                        placeholder="#target"
+                                                    />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">URL</label>
+                                                    <Input
+                                                        value={cell.url || ''}
+                                                        onChange={(e) => updateCell(cellUid, rowUid, section, (c) => ({ ...c, url: e.target.value } as ButtonCellProps))}
+                                                        placeholder="/url"
                                                     />
                                                 </div>
                                             </div>
