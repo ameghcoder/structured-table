@@ -112,12 +112,14 @@ Supported attributes:
 - `colSpan`: Number of columns to span.
 - `rowSpan`: Number of rows to span.
 - `align`: "left" | "center" | "right".
+- `cellType`: "header" | "data" (semantic rendering hint for UI renderers).
 
 **Example:**
 ```stl
 [body]
 Standard Cell | Spanning 2 Columns {colSpan=2} |
 Centered Text {align="center"} | Standard Cell | Standard Cell
+Body Header Cell {cellType="header"} | Standard Cell | Standard Cell
 ```
 
 ### Interactive Elements (Buttons & Links)
