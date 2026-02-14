@@ -46,15 +46,16 @@ const getComponent = (type: TableCell["type"]) => {
       <tbody>
         <tr v-for="(row, idx) in data.body" :key="row.uid">
           <td v-if="data.showSerialIndex">{{ idx + 1 }}</td>
-          <td
+          <component
             v-for="cell in row.cells"
             :key="cell.uid"
+            :is="cell.cellType === 'header' ? 'th' : 'td'"
             :colSpan="cell.colSpan ?? 1"
             :rowSpan="cell.rowSpan ?? 1"
             :style="{ textAlign: cell.align || 'left' }"
           >
             <component :is="getComponent(cell.type)" :data="cell" />
-          </td>
+          </component>
         </tr>
       </tbody>
       <tfoot v-if="data.footer && data.footer.cells.length > 0">
