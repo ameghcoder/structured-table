@@ -26,7 +26,13 @@ export const getInitialStructure = (): SanityTable => ({
 // Alway cross-check this with the TableCellBase (./lib/types.ts)
 // If you will update the TableCellBase and also update this
 // Otherwise it not accepts the new Attribute values
-const ALLOWED_KEYS = new Set(["colSpan", "textAlign", "rowSpan"]);
+const ALLOWED_KEYS = new Set([
+  "colSpan",
+  "rowSpan",
+  "align",
+  "textAlign", // legacy alias
+  "cellType",
+]);
 
 interface ParseAttributeResponse {
   attrObj: Partial<TableCellBase>;
@@ -74,6 +80,21 @@ function parseSpecificAttributes(trimmed: string): ParseAttributeResponse {
         if (!isNaN(num)) {
           finalValue = num;
         }
+      }
+      if (key === "align" || key === "textAlign") {
+        // Keep both keys for compatibility, but normalize onto TableCellBase.align.
+        if (value !== "left" && value !== "center" && value !== "right") {
+          continue;
+        }
+        attrObj.align = value as TableCellBase["align"];
+        continue;
+      }
+      if (key === "cellType") {
+        // Keep the surface area small and predictable for renderers.
+        if (value !== "header" && value !== "data") {
+          continue;
+        }
+        finalValue = value;
       }
 
       // Assign the value (now safely we can use the keyof TableCellBase)

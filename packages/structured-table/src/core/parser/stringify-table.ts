@@ -97,6 +97,15 @@ function formatCell(cell: TableCell): string {
     attributes.push(`rowSpan=${cell.rowSpan}`);
   }
 
+  if (cell.align && cell.align !== "left") {
+    attributes.push(`align="${cell.align}"`);
+  }
+
+  if (cell.cellType && cell.cellType !== "data") {
+    attributes.push(`cellType="${cell.cellType}"`);
+  }
+
+
   // Note: align is not in the DSL format based on the parser, but we can add it if needed
   // The parser only supports colSpan, rowSpan, and textAlign (but textAlign uses different format)
 
