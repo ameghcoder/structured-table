@@ -188,7 +188,14 @@ export function parseTableString(formatString: string): SanityTable {
     for (const cell of rawCells) {
       const trimmed = cell.trim();
 
-      const { attrObj, text } = parseSpecificAttributes(trimmed); // if a cell contains attribute value then it parse to an object, empty otherwise
+      const parsed = parseSpecificAttributes(trimmed); // if a cell contains attribute value then it parse to an object, empty otherwise
+      const attrObj = parsed.attrObj;
+      const text = parsed.text;
+
+      // Header cells already render as <th> by default, so `cellType` is redundant there.
+      if (currentSection === "header") {
+        delete attrObj.cellType;
+      }
 
       // --------- CTA (button/link) ---------
       const match = text.match(CTA_REGEX);
