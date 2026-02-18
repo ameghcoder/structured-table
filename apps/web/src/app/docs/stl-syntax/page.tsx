@@ -81,6 +81,9 @@ Product 1st | ₹ 2,999 | [button text="Buy Now" url="/buy-a" action="action" ta
                 <li><code>align</code>: &apos;left&apos;, &apos;center&apos;, or &apos;right&apos;.</li>
                 <li><code>cellType</code>: &apos;header&apos; or &apos;data&apos; (controls whether renderers use <code>&lt;th&gt;</code> or <code>&lt;td&gt;</code>).</li>
             </ul>
+            <TypographyP>
+                For details and more examples, see <TypographyLink className="text-primary" href={"/docs/stl-syntax/celltype"}>cellType documentation</TypographyLink>.
+            </TypographyP>
             <TypographyBlockCode lang="STL">
                 {`Plan A{cellType="header"} | {colSpan=2,align=center} Fast | 120ms{rowSpan=2} | [button text="Buy" url="/buy-a" action="action" targetId="target-id"]`}
             </TypographyBlockCode>

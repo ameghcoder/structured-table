@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Book, FileText, ChevronDown, Code, Layers, Layout, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft, Monitor } from 'lucide-react'
+import { Book, FileText, ChevronDown, Code, Layers, Layout, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft, Monitor, Heading } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
@@ -22,6 +22,7 @@ const docsNavigation = [
             { title: 'Links', href: '/docs/stl-syntax/links', icon: LinkIcon },
             { title: 'Row & Col Span', href: '/docs/stl-syntax/spanning', icon: Maximize2 },
             { title: 'Alignment', href: '/docs/stl-syntax/alignment', icon: AlignLeft },
+            { title: 'cellType', href: '/docs/stl-syntax/celltype', icon: Heading },
         ],
     },
     {
@@ -197,4 +198,3 @@ export default function DocsLayout({
         </div>
     )
 }
-
