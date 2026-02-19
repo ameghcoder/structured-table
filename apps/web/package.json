@@ -1,5 +1,5 @@
 {
-  "name": "structured-tables",
+  "name": "web",
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev",
@@ -20,7 +20,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-social-icons": "^6.25.0",
-    "structured-table": "^0.1.0",
+    "structured-table": "workspace:*",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.8",
-    "structured-table-cli": "^0.1.0",
+    "structured-table-cli": "workspace:*",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.4.0",
     "typescript": "^5"

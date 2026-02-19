@@ -1,0 +1,16 @@
+{
+    "name": "structured-table-project",
+    "packageManager": "pnpm@10.26.1",
+    "private": true,
+    "description": "Monorepo for Structured Table engine, CLI, and web apps",
+    "scripts": {
+        "dev": "turbo dev",
+        "build": "turbo build",
+        "clean": "rimraf node_modules **/node_modules dist **/dist pnpm-lock.yaml **/pnpm-lock.yaml package-lock.json **/package-lock.json"
+    },
+    "devDependencies": {
+        "rimraf": "^6.1.2",
+        "turbo": "latest",
+        "typescript": "^5.4.0"
+    }
+}

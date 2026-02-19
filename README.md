@@ -1,56 +1,114 @@
-# Structured Table Project
+# Structured Table Project 🛠️
 
 ![STL Banner](./img/STL.webp "STL Banner")
 
 > **Structured, themeable, SSR-friendly tables for React and modern web applications.**
 
-## Overview
+This project has been evolved into a **Monorepo** powered by [Turbo](https://turbo.build/) and [pnpm](https://pnpm.io/), separating core logic, CLI tooling, and documentation for better scalability and maintenance.
 
-**Structured Table** is a powerful toolkit designed to revolutionize how tables are built and managed in modern web development. Unlike traditional table libraries that lock you into specific styles or heavy dependencies, Structured Table separates the **core data logic** from the **visual presentation**. It provides a robust "Structured Table Language" (STL) to define data, while allowing you to render pixel-perfect, themeable UIs.
+---
 
-Designed with **Server-Side Rendering (SSR)** and **CMS integration** (specifically Sanity) in mind, it ensures that your tables are not only beautiful but also performant and SEO-friendly.
+## 🏗️ Why Monorepo?
 
-## Key Features
+The shift from a monolithic structure to a pnpm-powered monorepo was driven by several key benefits:
 
-- 🧩 **Headless Architecture**: The core logic is decoupled from the UI, giving you complete control over the look and feel.
-- 🚀 **CLI-Driven Component System**: Similar to modern UI libraries (like shadcn/ui), use our CLI to scaffold fully customizable table components directly into your codebase. You own the code.
-- ⚡ **SSR & Server Components**: Built for the modern web. Fully compatible with Next.js App Router and React Server Components.
-- 🎨 **Themeable & Dynamic**: Easily style your tables with CSS variables, Tailwind, or any styling solution you prefer.
-- 🔌 **CMS First**: First-class integration with **Sanity**, allowing content editors to build complex tables effortlessly.
+- **⚡ Real-time Package Syncing**: Using pnpm workspaces, changes made to the core engine (`packages/structured-table`) or the CLI are immediately available in the documentation app (`apps/web`) without needing to publish or manually link packages. This provides a seamless feedback loop during development.
+- **🧪 Integrated Testing**: We can run tests and lint checks across all packages and apps simultaneously using TurboRepo's parallel execution, ensuring that changes in the core library don't break the CLI or the web implementation.
+- **📦 Unified Dependency Management**: Single lockfile for the entire project reduces "dependency hell" and ensures consistent versions of tools like TypeScript and ESLint across the whole codebase.
+- **🚀 Optimized CI/CD**: Turbo's remote caching and task orchestration mean we only build and test what has changed, drastically reducing build times as the project grows.
 
-## How It Works
+---
 
-The project consists of two main parts:
+## 🏗️ Monorepo Architecture
 
-1.  **`structured-table` (Core)**: The lightweight library that parses your data and manages the table state.
-2.  **`structured-table-cli` (CLI)**: A command-line tool that generates the actual components (Renderers) into your project.
+The repository is organized into distinct workspaces to separate concerns:
 
-### Usage
+### 📦 Packages (`/packages`)
 
-1.  **Install the Core Package:**
-    ```bash
-    npm install structured-table
-    ```
+- **[`structured-table`](./packages/structured-table)**: The core headless engine. Handles data parsing, state management, and STL (Structured Table Language) logic.
+- **[`structured-table-cli`](./packages/structured-table-cli)**: The developer's toolkit. Used to scaffold renderers and components directly into your apps (e.g., `npx stl-cli add react`).
 
-2.  **Add the Renderer:**
-    Use the CLI to add the React renderer to your project. This will create the necessary components in your `src/components` directory.
-    ```bash
-    npx stl-cli add react
-    ```
+### 🚀 Applications (`/apps`)
 
-3.  **Implement in Your App:**
-    Import the generated `TableView` component and pass your structured data to it.
-    ```tsx
-    import { TableView } from "@/components/stl-render-react/latest";
+- **[`web`](./apps/web)**: The official documentation site, playground, and showcase built with Next.js 16 (App Router).
 
-    export default function Page() {
-      const data = { ... }; // Your structured table data
-      return <TableView data={data} />;
-    }
-    ```
+---
 
-## Ecosystem
+## 🚀 Getting Started
 
-- **`packages/structured-table`**: The core logic and type definitions.
-- **`packages/structured-table-cli`**: The CLI tool for managing renderers and scaffolding.
-- **`apps/web`**: Documentation and examples.
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v20+ recommended)
+- [pnpm](https://pnpm.io/) (v10+ recommended)
+
+### Installation
+
+Clone the repository and install dependencies from the root:
+
+```bash
+pnpm install
+```
+
+### Development
+
+Run all packages and apps in development mode:
+
+```bash
+pnpm dev
+```
+
+To run a specific workspace (e.g., just the web docs):
+
+```bash
+pnpm dev --filter web
+```
+
+### Building
+
+Build all packages and apps:
+
+```bash
+pnpm build
+```
+
+---
+
+## ✨ Key Features
+
+- **🧩 Headless Architecture**: Decoupled logic gives you 100% control over the UI.
+- **🚀 CLI-Driven Scaffold**: Own your components. Scaffold renderers into your `src/components` with one command.
+- **⚡ SSR & React Server Components**: Native support for Next.js App Router and high-performance rendering.
+- **🎨 Themeable**: Zero-config compatibility with Tailwind CSS, CSS Modules, or Vanilla CSS.
+- **🔌 CMS Native**: Built-in specialized support for **Sanity** table data structures.
+
+---
+
+## 🛠️ Usage (For End Users)
+
+1. **Install Core**:
+
+   ```bash
+   npm install structured-table
+   ```
+
+2. **Add Renderer**:
+
+   ```bash
+   npx stl-cli add react
+   ```
+
+3. **Render Table**:
+
+   ```tsx
+   import { TableView } from "@/components/stl-render-react/latest";
+
+   export default function Page() {
+     return <TableView data={stlData} />;
+   }
+   ```
+
+---
+
+## 📄 License
+
+MIT © [Yashraj Yadav](https://github.com/ameghcoder)
