@@ -635,6 +635,20 @@ export function VisualEditor({ table, setTable, tableTheme, setTableTheme, handl
 
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="space-y-1.5">
+                                            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Cell Type</label>
+                                            <div className="flex bg-muted p-1 rounded-2xl border h-10">
+                                                {(['data', 'header'] as const).map((type) => (
+                                                    <button
+                                                        key={type}
+                                                        onClick={() => updateCell(cellUid, rowUid, section, (c) => ({ ...c, cellType: type }))}
+                                                        className={`flex-1 flex items-center justify-center text-xs font-semibold rounded-xl transition-all ${((cell!.cellType || 'data') === type) ? 'bg-background shadow-sm text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                                                    >
+                                                        {type.toUpperCase()}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1.5">
                                             <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Column Span</label>
                                             <Input
                                                 type="number"
@@ -964,36 +978,39 @@ export function VisualEditor({ table, setTable, tableTheme, setTableTheme, handl
     )
 }
 
-// Add this helper function outside or inside the component
 function renderCellPreview(cell: TableCell) {
-    if (cell.type === 'text') {
-        return (
-            <div className="relative group">
-                <p className="text-sm truncate max-w-[200px]">{cell.value || <span className="opacity-30 italic">Empty text</span>}</p>
-                {cell.colSpan! > 1 || cell.rowSpan! > 1 ? (
-                    <div className="absolute top-0 right-0 p-0.5 bg-primary/20 rounded text-[8px] font-bold text-primary flex gap-1">
-                        {cell.colSpan! > 1 && <span>COL {cell.colSpan}</span>}
-                        {cell.rowSpan! > 1 && <span>ROW {cell.rowSpan}</span>}
+    return (
+        <div className="relative group">
+            <div className="flex items-center gap-1.5">
+                {cell.cellType === 'header' && (
+                    <span className="text-[9px] font-bold bg-primary/10 text-primary px-1 rounded border border-primary/20 leading-none py-0.5">H</span>
+                )}
+                {cell.type === 'text' && (
+                    <p className={`text-sm truncate max-w-[200px] ${cell.cellType === 'header' ? 'font-bold' : ''}`}>
+                        {cell.value || <span className="opacity-30 italic">Empty text</span>}
+                    </p>
+                )}
+                {cell.type === 'link' && (
+                    <div className="flex items-center gap-1.5 text-primary">
+                        <LinkIcon className="h-3.5 w-3.5" />
+                        <span className={`text-sm font-medium underline underline-offset-4 decoration-primary/30 truncate max-w-[150px] ${cell.cellType === 'header' ? 'font-bold' : ''}`}>
+                            {cell.text || 'Empty link'}
+                        </span>
                     </div>
-                ) : null}
+                )}
+                {cell.type === 'button' && (
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-bold border border-primary/20 shadow-sm">
+                        <MousePointerClick className="h-3 w-3" />
+                        <span className="truncate max-w-[120px] uppercase tracking-tight">{cell.text || 'Action'}</span>
+                    </div>
+                )}
             </div>
-        )
-    }
-    if (cell.type === 'link') {
-        return (
-            <div className="flex items-center gap-1.5 text-primary">
-                <LinkIcon className="h-3.5 w-3.5" />
-                <span className="text-sm font-medium underline underline-offset-4 decoration-primary/30 truncate max-w-[150px]">{cell.text || 'Empty link'}</span>
-            </div>
-        )
-    }
-    if (cell.type === 'button') {
-        return (
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-bold border border-primary/20 shadow-sm">
-                <MousePointerClick className="h-3 w-3" />
-                <span className="truncate max-w-[120px] uppercase tracking-tight">{cell.text || 'Action'}</span>
-            </div>
-        )
-    }
-    return null
+            {((cell.colSpan || 1) > 1 || (cell.rowSpan || 1) > 1) && (
+                <div className="absolute top-0 right-0 p-0.5 bg-primary/10 rounded text-[8px] font-bold text-primary/60 flex gap-1 pointer-events-none">
+                    {(cell.colSpan || 1) > 1 && <span>C{cell.colSpan}</span>}
+                    {(cell.rowSpan || 1) > 1 && <span>R{cell.rowSpan}</span>}
+                </div>
+            )}
+        </div>
+    )
 }
