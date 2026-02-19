@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Star } from 'lucide-react'
@@ -5,7 +6,6 @@ import { TypographyBlockCode, TypographyH1, TypographyP } from '../ui/typography
 import { BasicFormat } from '@/stl/basic-format'
 import { STLTablePreview } from '../layout/stl-table-preview'
 import { CompareSlider } from '@/components/ui/compare-slider'
-import { Badge } from '../ui/badge'
 
 export function Hero() {
     return (
@@ -16,9 +16,15 @@ export function Hero() {
 
             <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
                 {/* Badge */}
-                <Badge variant="default" className='rounded-2xl my-6'>
-                    v0.1.1 is now live
-                </Badge>
+                <div className='flex items-center justify-center'>
+                    <Link href="https://www.npmjs.com/package/structured-table" target="_blank">
+                        <img
+                            src="https://img.shields.io/npm/v/structured-table?style=for-the-badge&color=black&labelColor=333"
+                            alt="structured-table version"
+                            className="my-6 rounded-lg h-7"
+                        />
+                    </Link>
+                </div>
 
                 {/* Heading */}
                 <TypographyH1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 leading-16">

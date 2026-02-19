@@ -43,7 +43,7 @@ const docsNavigation = [
 ]
 
 const versions = [
-    { label: 'v0.1.1', value: 'v1', current: true },
+    { label: 'v0.2.1', value: 'v1', current: true },
 ]
 
 export default function DocsLayout({
