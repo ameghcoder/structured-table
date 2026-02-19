@@ -26,7 +26,13 @@ export const getInitialStructure = (): SanityTable => ({
 // Alway cross-check this with the TableCellBase (./lib/types.ts)
 // If you will update the TableCellBase and also update this
 // Otherwise it not accepts the new Attribute values
-const ALLOWED_KEYS = new Set(["colSpan", "textAlign", "rowSpan"]);
+const ALLOWED_KEYS = new Set([
+  "colSpan",
+  "rowSpan",
+  "align",
+  "textAlign", // legacy alias
+  "cellType",
+]);
 
 interface ParseAttributeResponse {
   attrObj: Partial<TableCellBase>;
@@ -74,6 +80,21 @@ function parseSpecificAttributes(trimmed: string): ParseAttributeResponse {
         if (!isNaN(num)) {
           finalValue = num;
         }
+      }
+      if (key === "align" || key === "textAlign") {
+        // Keep both keys for compatibility, but normalize onto TableCellBase.align.
+        if (value !== "left" && value !== "center" && value !== "right") {
+          continue;
+        }
+        attrObj.align = value as TableCellBase["align"];
+        continue;
+      }
+      if (key === "cellType") {
+        // Keep the surface area small and predictable for renderers.
+        if (value !== "header" && value !== "data") {
+          continue;
+        }
+        finalValue = value;
       }
 
       // Assign the value (now safely we can use the keyof TableCellBase)
@@ -167,7 +188,14 @@ export function parseTableString(formatString: string): SanityTable {
     for (const cell of rawCells) {
       const trimmed = cell.trim();
 
-      const { attrObj, text } = parseSpecificAttributes(trimmed); // if a cell contains attribute value then it parse to an object, empty otherwise
+      const parsed = parseSpecificAttributes(trimmed); // if a cell contains attribute value then it parse to an object, empty otherwise
+      const attrObj = parsed.attrObj;
+      const text = parsed.text;
+
+      // Header cells already render as <th> by default, so `cellType` is redundant there.
+      if (currentSection === "header") {
+        delete attrObj.cellType;
+      }
 
       // --------- CTA (button/link) ---------
       const match = text.match(CTA_REGEX);

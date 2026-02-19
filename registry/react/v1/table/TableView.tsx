@@ -18,6 +18,10 @@ const TableCellContent = React.memo(({ data }: { data: TableCell; }) => {
 })
 TableCellContent.displayName = "TableCellContent";
 
+function getBodyCellTag(cell: TableCell): "td" | "th" {
+    return cell.cellType === "header" ? "th" : "td";
+}
+
 // This component is only used here until it's npm package ready,
 const TableView = ({
     data,
@@ -52,9 +56,10 @@ const TableView = ({
                                 {data.showSerialIndex && <td>{idx + 1}</td>}
                                 {
                                     row.cells.map(cell => {
-                                        return <td key={cell.uid} colSpan={cell.colSpan ?? 1} rowSpan={cell.rowSpan ?? 1} style={{ textAlign: cell.align || 'left' }}>
+                                        const Tag = getBodyCellTag(cell);
+                                        return <Tag key={cell.uid} colSpan={cell.colSpan ?? 1} rowSpan={cell.rowSpan ?? 1} style={{ textAlign: cell.align || 'left' }}>
                                             <TableCellContent data={cell} />
-                                        </td>
+                                        </Tag>
                                     })
                                 }
                             </tr>

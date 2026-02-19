@@ -24,7 +24,7 @@ export function stringifyTable(table: SanityTable): string {
   // Header section
   if (table.header && table.header.cells.length > 0) {
     lines.push("[header]");
-    lines.push(formatRowCells(table.header.cells));
+    lines.push(formatRowCells(table.header.cells, { section: "header" }));
     lines.push(""); // Empty line
   }
 
@@ -34,7 +34,7 @@ export function stringifyTable(table: SanityTable): string {
     for (const row of table.body) {
       // Filter out cells that are removed due to rowSpan
       const visibleCells = row.cells.filter((c) => !c._removedDueToRowSpan);
-      lines.push(formatRowCells(visibleCells));
+      lines.push(formatRowCells(visibleCells, { section: "body" }));
     }
     lines.push(""); // Empty line
   }
@@ -42,7 +42,7 @@ export function stringifyTable(table: SanityTable): string {
   // Footer section
   if (table.footer && table.footer.cells.length > 0) {
     lines.push("[footer]");
-    lines.push(formatRowCells(table.footer.cells));
+    lines.push(formatRowCells(table.footer.cells, { section: "footer" }));
     lines.push(""); // Empty line
   }
 
@@ -55,14 +55,20 @@ export function stringifyTable(table: SanityTable): string {
 /**
  * Formats a row of cells into DSL format
  */
-function formatRowCells(cells: TableCell[]): string {
-  return cells.map((cell) => formatCell(cell)).join(" | ");
+function formatRowCells(
+  cells: TableCell[],
+  opts: { section: "header" | "body" | "footer" }
+): string {
+  return cells.map((cell) => formatCell(cell, opts)).join(" | ");
 }
 
 /**
  * Formats a single cell into DSL format
  */
-function formatCell(cell: TableCell): string {
+function formatCell(
+  cell: TableCell,
+  opts: { section: "header" | "body" | "footer" }
+): string {
   let cellContent = "";
 
   // Format cell content based on type
@@ -96,6 +102,16 @@ function formatCell(cell: TableCell): string {
   if (cell.rowSpan && cell.rowSpan > 1) {
     attributes.push(`rowSpan=${cell.rowSpan}`);
   }
+
+  if (cell.align && cell.align !== "left") {
+    attributes.push(`align="${cell.align}"`);
+  }
+
+  // Header section cells are always <th>; omit redundant cellType in STL output.
+  if (opts.section !== "header" && cell.cellType && cell.cellType !== "data") {
+    attributes.push(`cellType="${cell.cellType}"`);
+  }
+
 
   // Note: align is not in the DSL format based on the parser, but we can add it if needed
   // The parser only supports colSpan, rowSpan, and textAlign (but textAlign uses different format)

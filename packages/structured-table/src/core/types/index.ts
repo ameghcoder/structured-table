@@ -37,6 +37,11 @@ export interface TableCellBase {
   colSpan?: number; // defaults to 1
   rowSpan?: number; // defaults to 1
   align?: "left" | "center" | "right";
+  /**
+   * Controls semantic rendering in UI renderers (e.g. <th> vs <td>).
+   * If omitted, renderers should default to "data".
+   */
+  cellType?: "header" | "data";
 
   // this types only used for normalization, not impact on how table renders
   _removedDueToRowSpan?: boolean;
