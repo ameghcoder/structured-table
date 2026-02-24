@@ -4,11 +4,12 @@
     "dependencies": [
         {
             "package": "structured-table",
-            "version": "0.1.1"
+            "version": "latest"
         }
     ],
     "rendererVersion": {
-        "latest": "v1",
+        "latest": "v2",
+        "v2": "v2",
         "v1": "v1"
     },
     "entry": {
