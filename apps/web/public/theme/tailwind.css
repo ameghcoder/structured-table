@@ -14,15 +14,17 @@
             background: linear-gradient(to bottom, var(--color-muted), var(--color-muted));
         }
 
-        th {
-            padding: 0.875rem 1.25rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            color: var(--color-foreground);
-            border-bottom: 2px solid var(--color-border);
-        }
+    }
+
+    th {
+        padding: 0.875rem 1.25rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        color: var(--color-foreground);
+        border-bottom: 2px solid var(--color-border);
+        background: linear-gradient(to bottom, var(--color-muted), var(--color-muted));
     }
 
     tbody {

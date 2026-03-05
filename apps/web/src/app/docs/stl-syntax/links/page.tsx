@@ -41,12 +41,12 @@ GitHub Repo   | [link text="View Code" href="https://github.com" newTab="true"]`
 
             <TypographyH2>How Links Work</TypographyH2>
             <TypographyP>
-                Links in the Structured Table Library render as standard anchor (`&lt;a&gt;`) elements with proper styling.
+                Links in the Structured Table Language render as standard anchor (`&lt;a&gt;`) elements with proper styling.
             </TypographyP>
 
             <TypographyList list={[
                 <p key="1"><strong className="text-primary">Standard Navigation</strong>: By default, links navigate within the same tab.</p>,
-                <p key="2"><strong className="text-primary">New Tab</strong>: When `newTab="true"` is set, the link opens in a new browser tab with `rel="noopener noreferrer"` for security.</p>,
+                <p key="2"><strong className="text-primary">New Tab</strong>: When `newTab=&quot;true&quot;` is set, the link opens in a new browser tab with `rel=&quot;noopener noreferrer&quot;` for security.</p>,
             ]} />
 
         </div>

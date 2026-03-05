@@ -121,7 +121,7 @@ export default {
       <TypographyP>
         Check following video to Learn how to use block inside Sanity Studio.
       </TypographyP>
-      <ShowYouTubeVideo videoId="IVxWN7TVP2I" />
+      <ShowYouTubeVideo videoId="VDj2CrNHuTA" />
       <TypographyP>
         The table preview will update automatically below user input as you type, giving you immediate response on your table structure and content.
       </TypographyP>

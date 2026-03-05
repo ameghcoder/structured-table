@@ -10,9 +10,11 @@
             background-color: var(--color-muted);
         }
 
-        th {
-            border-bottom: 2px solid var(--color-border);
-        }
+    }
+
+    th {
+        background-color: var(--color-muted);
+        border-bottom: 2px solid var(--color-border);
     }
 
     tbody {
