@@ -42,6 +42,7 @@ export interface TableCellBase {
    * If omitted, renderers should default to "data".
    */
   cellType?: "header" | "data";
+  class?: string;
 
   // this types only used for normalization, not impact on how table renders
   _removedDueToRowSpan?: boolean;

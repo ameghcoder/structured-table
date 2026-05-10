@@ -12,117 +12,77 @@ export const getInitialStructure = (): SanityTable => ({
   name: "",
   cols: 0,
   showSerialIndex: false,
-  header: {
-    uid: nanoid(),
-    cells: [],
-  },
+  header: { uid: nanoid(), cells: [] },
   body: [],
-  footer: {
-    uid: nanoid(),
-    cells: [],
-  },
+  footer: { uid: nanoid(), cells: [] },
 });
 
-// Alway cross-check this with the TableCellBase (./lib/types.ts)
-// If you will update the TableCellBase and also update this
-// Otherwise it not accepts the new Attribute values
-const ALLOWED_KEYS = new Set([
-  "colSpan",
-  "rowSpan",
-  "align",
-  "textAlign", // legacy alias
-  "cellType",
-]);
+// Each entry validates and transforms a raw attribute string value.
+// Returning undefined signals that the value is invalid and should be skipped.
+const ATTRIBUTE_TRANSFORMERS: Record<string, (val: string) => any> = {
+  colSpan: (v) => { const n = Number(v); return !isNaN(n) ? n : undefined; },
+  rowSpan: (v) => { const n = Number(v); return !isNaN(n) ? n : undefined; },
+  align:    (v) => (["left", "center", "right"].includes(v) ? v : undefined),
+  textAlign: (v) => (["left", "center", "right"].includes(v) ? v : undefined),
+  cellType: (v) => (["header", "data"].includes(v) ? v : undefined),
+  class:    (v) => v,
+};
+
+// Maps legacy/alias STL keys to their canonical TableCellBase property names
+const ATTRIBUTE_KEY_MAP: Record<string, keyof TableCellBase> = {
+  textAlign: "align",
+};
 
 interface ParseAttributeResponse {
   attrObj: Partial<TableCellBase>;
   text: string;
 }
+
 function parseSpecificAttributes(trimmed: string): ParseAttributeResponse {
   const matchAttributes = trimmed.match(CURLY_BRACE_REGEX);
   const attrObj: Partial<TableCellBase> = {};
-
-  let cleanText = trimmed; // Starting with the full string
+  let cleanText = trimmed;
 
   if (matchAttributes && matchAttributes[1]) {
     const attributeBlock = matchAttributes[0];
     const attributeString = matchAttributes[1];
-
-    // Only replace the attribute block if it exists
     cleanText = trimmed.replace(attributeBlock, "").trim();
-
-    let match;
-
-    // Reset LastIndex for the global regex - it ensure to start the search from 0 every time function calls
     ATTRIBUTE_PAIR_REGEX.lastIndex = 0;
+    let match;
 
     while ((match = ATTRIBUTE_PAIR_REGEX.exec(attributeString)) !== null) {
       const key = match[1].trim();
-
-      // Check if the key is in our list
-      if (!ALLOWED_KEYS.has(key)) {
-        continue;
-      }
+      const transformer = ATTRIBUTE_TRANSFORMERS[key];
+      if (!transformer) continue;
 
       let value = match[2].trim();
-
-      // Clean up surrounding quotes
       if (value.startsWith('"') && value.endsWith('"')) {
         value = value.slice(1, -1);
       }
 
-      // Type Conversion (eg. converting '2' to 2 for colSpan)
-      let finalValue: any = value;
-      if (key === "colSpan" || key === "rowSpan") {
-        // current we not support rowSpan attri, only include here for the future use
-        // check if it's a valid number before converting
-        const num = Number(value);
-        if (!isNaN(num)) {
-          finalValue = num;
-        }
-      }
-      if (key === "align" || key === "textAlign") {
-        // Keep both keys for compatibility, but normalize onto TableCellBase.align.
-        if (value !== "left" && value !== "center" && value !== "right") {
-          continue;
-        }
-        attrObj.align = value as TableCellBase["align"];
-        continue;
-      }
-      if (key === "cellType") {
-        // Keep the surface area small and predictable for renderers.
-        if (value !== "header" && value !== "data") {
-          continue;
-        }
-        finalValue = value;
-      }
+      const finalValue = transformer(value);
+      if (finalValue === undefined) continue;
 
-      // Assign the value (now safely we can use the keyof TableCellBase)
-      attrObj[key as keyof TableCellBase] = finalValue;
+      const finalKey = (ATTRIBUTE_KEY_MAP[key] ?? key) as keyof TableCellBase;
+      attrObj[finalKey] = finalValue;
     }
   }
 
   return { attrObj, text: cleanText };
 }
 
-// Normalize Rows for rowSpan attribute
 function normalizeRowSpan(table: SanityTable) {
   const matrix = table.body;
 
   for (let r = 0; r < matrix.length; r++) {
     const row = matrix[r];
-
     for (let c = 0; c < row.cells.length; c++) {
       const cell = row.cells[c];
-
       if (cell.rowSpan && cell.rowSpan > 1) {
         const span = cell.rowSpan;
-
         for (let i = 1; i < span; i++) {
           const belowRow = matrix[r + i];
           if (!belowRow) break;
-
-          // Remove the target column cell because rowSpan covers it
           if (belowRow.cells[c]) {
             belowRow.cells[c]._removedDueToRowSpan = true;
           }
@@ -131,41 +91,38 @@ function normalizeRowSpan(table: SanityTable) {
     }
   }
 
-  // final cleanup pass: delete removed cells
   for (const row of matrix) {
     row.cells = row.cells.filter((c) => !c._removedDueToRowSpan);
   }
 }
 
-// Parse the Table
 export function parseTableString(formatString: string): SanityTable {
+  if (typeof (formatString as unknown) !== "string") {
+    throw new TypeError(
+      `[structured-table] parseTableString: expected a string, received ${
+        (formatString as unknown) === null ? "null" : typeof (formatString as unknown)
+      }`
+    );
+  }
+
   const result: SanityTable = getInitialStructure();
 
-  if (formatString.length == 0) return result;
+  if (formatString.length === 0) {
+    console.warn("[structured-table] parseTableString: received an empty string — returning empty table structure");
+    return result;
+  }
 
   const lines = formatString.split("\n");
-
   let currentSection: "header" | "body" | "footer" | null = null;
 
   for (const raw of lines) {
     const line = raw.trim();
     if (!line || line.startsWith("#")) continue;
 
-    // section headers
-    if (line === "[header]") {
-      currentSection = "header";
-      continue;
-    }
-    if (line === "[body]") {
-      currentSection = "body";
-      continue;
-    }
-    if (line === "[footer]") {
-      currentSection = "footer";
-      continue;
-    }
+    if (line === "[header]") { currentSection = "header"; continue; }
+    if (line === "[body]")   { currentSection = "body";   continue; }
+    if (line === "[footer]") { currentSection = "footer"; continue; }
 
-    // initial config
     if (currentSection === null) {
       if (line.startsWith("name:")) {
         result.name = line.slice(5).trim();
@@ -177,56 +134,31 @@ export function parseTableString(formatString: string): SanityTable {
       continue;
     }
 
-    // row parsing
-    // const rawCells = line.split(/\s*\|\s*/); // I avoid this way because it uses regex, it is faster enough, but we can optimize it more
-    const rawCells = line.split("|"); // Simply using the vertical pipe-line, because table raw format uses the vertcal pipe to separate the cells
-    const row: TableRow = {
-      uid: nanoid(),
-      cells: [],
-    };
+    const rawCells = line.split("|");
+    const row: TableRow = { uid: nanoid(), cells: [] };
 
     for (const cell of rawCells) {
       const trimmed = cell.trim();
+      const { attrObj, text } = parseSpecificAttributes(trimmed);
 
-      const parsed = parseSpecificAttributes(trimmed); // if a cell contains attribute value then it parse to an object, empty otherwise
-      const attrObj = parsed.attrObj;
-      const text = parsed.text;
+      // Header cells always render as <th>; cellType is redundant there
+      if (currentSection === "header") delete attrObj.cellType;
 
-      // Header cells already render as <th> by default, so `cellType` is redundant there.
-      if (currentSection === "header") {
-        delete attrObj.cellType;
-      }
-
-      // --------- CTA (button/link) ---------
-      const match = text.match(CTA_REGEX);
-      if (match) {
-        const tagType = match[1];
-        const attrString = match[2].trim();
-
-        // Reset lastIndex 0 to ensure the iteration starts from the beginning
+      const ctaMatch = text.match(CTA_REGEX);
+      if (ctaMatch) {
+        const tagType = ctaMatch[1];
+        const attrString = ctaMatch[2].trim();
         ATTRIBUTE_REGEX.lastIndex = 0;
-
         const cellObject: any = { type: tagType };
         let attrMatch;
         while ((attrMatch = ATTRIBUTE_REGEX.exec(attrString)) !== null) {
           cellObject[attrMatch[1]] = attrMatch[2];
         }
-
-        row.cells.push({
-          ...cellObject,
-          ...attrObj,
-          uid: nanoid(),
-        } as TableCell);
+        row.cells.push({ ...cellObject, ...attrObj, uid: nanoid() } as TableCell);
         continue;
       }
 
-      // --------- Plain text ---------
-      row.cells.push({
-        uid: nanoid(),
-        type: "text",
-        value: text,
-        ...attrObj,
-      });
+      row.cells.push({ uid: nanoid(), type: "text", value: text, ...attrObj });
     }
 
     if (currentSection === "footer") {
@@ -234,9 +166,10 @@ export function parseTableString(formatString: string): SanityTable {
     } else if (currentSection === "header") {
       result.header = row;
     } else if (currentSection === "body") {
-      result[currentSection]!.push(row);
+      result.body.push(row);
     }
   }
+
   normalizeRowSpan(result);
   return result;
 }
