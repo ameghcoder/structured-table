@@ -11,7 +11,15 @@ type CellFormatOpts = { section: "header" | "body" | "footer" };
 // Maps each cell type to its STL serialization.
 // To support a new cell type, add one entry here.
 const CELL_CONTENT_FORMATTERS: Record<string, (cell: TableCell) => string> = {
-  text: (cell) => (cell as TextCellProps).value || "",
+  text: (cell) => {
+    const { value } = cell as TextCellProps;
+    if (!Array.isArray(value)) return value || "";
+    return value.map((node) => {
+      if (node.type === "string") return node.data;
+      if (node.type === "html" && node.tag === "br") return "[br]";
+      return "";
+    }).join("");
+  },
   link: (cell) => {
     const c = cell as LinkCellProps;
     const attrs = [

@@ -49,6 +49,24 @@ export interface TableCellBase {
 }
 
 // -----------------------------------------------------------
+// INLINE CONTENT NODES (used inside text cells for rich inline content)
+// -----------------------------------------------------------
+export interface InlineTextNode {
+  uid: string;
+  type: "string";
+  data: string;
+}
+
+export interface InlineHtmlNode {
+  uid: string;
+  type: "html";
+  data: string;
+  tag: string; // tag name without angle brackets, e.g. "br"
+}
+
+export type InlineNode = InlineTextNode | InlineHtmlNode;
+
+// -----------------------------------------------------------
 // STATIC CELL TYPES
 // -----------------------------------------------------------
 export type TableCell = TextCellProps | LinkCellProps | ButtonCellProps;
@@ -56,7 +74,7 @@ export type TableCell = TextCellProps | LinkCellProps | ButtonCellProps;
 // 1. Static text cell
 export interface TextCellProps extends TableCellBase {
   type: "text";
-  value: string;
+  value: string | InlineNode[];
 }
 
 // 2. Clickable link cell

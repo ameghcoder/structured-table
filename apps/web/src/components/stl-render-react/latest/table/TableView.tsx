@@ -35,13 +35,13 @@ const TableView = ({
         <div className={`st-theme-${className}`} >
             <table>
                 {
-                    data.header && data.header.cells.length > 0 &&
+                    data.header &&
                     <thead>
                         <tr>
                             {data.showSerialIndex && <th >#</th>}
                             {
                                 data.header.cells.map(dh => {
-                                    return <th key={dh.uid} colSpan={dh.colSpan ?? 1} rowSpan={dh.rowSpan ?? 1} style={{ textAlign: dh.align || 'left' }}>
+                                    return <th key={dh.uid} colSpan={dh.colSpan ?? 1} rowSpan={dh.rowSpan ?? 1} style={{ textAlign: dh.align || 'left' }} className={dh.class}>
                                         <TableCellContent data={dh} />
                                     </th>
                                 })
@@ -57,7 +57,7 @@ const TableView = ({
                                 {
                                     row.cells.map(cell => {
                                         const Tag = getBodyCellTag(cell);
-                                        return <Tag key={cell.uid} colSpan={cell.colSpan ?? 1} rowSpan={cell.rowSpan ?? 1} style={{ textAlign: cell.align || 'left' }}>
+                                        return <Tag key={cell.uid} colSpan={cell.colSpan ?? 1} rowSpan={cell.rowSpan ?? 1} style={{ textAlign: cell.align || 'left' }} className={cell.class}>
                                             <TableCellContent data={cell} />
                                         </Tag>
                                     })
@@ -79,6 +79,7 @@ const TableView = ({
                                         colSpan={df.colSpan ?? 1}
                                         rowSpan={df.rowSpan ?? 1}
                                         style={{ textAlign: df.align || 'left' }}
+                                        className={df.class}
                                     >
                                         <TableCellContent data={df} />
                                     </th>

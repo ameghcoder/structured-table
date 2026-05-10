@@ -38,6 +38,7 @@ const getComponent = (type: TableCell["type"]) => {
             :colSpan="dh.colSpan ?? 1"
             :rowSpan="dh.rowSpan ?? 1"
             :style="{ textAlign: dh.align || 'left' }"
+            :class="dh.class"
           >
             <component :is="getComponent(dh.type)" :data="dh" />
           </th>
@@ -53,6 +54,7 @@ const getComponent = (type: TableCell["type"]) => {
             :colSpan="cell.colSpan ?? 1"
             :rowSpan="cell.rowSpan ?? 1"
             :style="{ textAlign: cell.align || 'left' }"
+            :class="cell.class"
           >
             <component :is="getComponent(cell.type)" :data="cell" />
           </component>
@@ -67,6 +69,7 @@ const getComponent = (type: TableCell["type"]) => {
             :colSpan="df.colSpan ?? 1"
             :rowSpan="df.rowSpan ?? 1"
             :style="{ textAlign: df.align || 'left' }"
+            :class="df.class"
           >
             <component :is="getComponent(df.type)" :data="df" />
           </th>

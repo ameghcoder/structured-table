@@ -6,7 +6,7 @@ import {
   CTA_REGEX,
   CURLY_BRACE_REGEX,
 } from "../regex/regex";
-import { SanityTable, TableCell, TableCellBase, TableRow } from "../types";
+import { InlineNode, SanityTable, TableCell, TableCellBase, TableRow } from "../types";
 
 export const getInitialStructure = (): SanityTable => ({
   name: "",
@@ -69,6 +69,22 @@ function parseSpecificAttributes(trimmed: string): ParseAttributeResponse {
   }
 
   return { attrObj, text: cleanText };
+}
+
+// Splits cell text on [br] markers into an InlineNode array.
+// Returns the original string when no [br] is present (common case, zero overhead).
+function parseInlineContent(text: string): string | InlineNode[] {
+  if (!text.includes("[br]")) return text;
+
+  const parts = text.split("[br]");
+  const nodes: InlineNode[] = [];
+
+  parts.forEach((part, i) => {
+    if (part) nodes.push({ uid: nanoid(), type: "string", data: part });
+    if (i < parts.length - 1) nodes.push({ uid: nanoid(), type: "html", data: "", tag: "br" });
+  });
+
+  return nodes;
 }
 
 function normalizeRowSpan(table: SanityTable) {
@@ -158,7 +174,7 @@ export function parseTableString(formatString: string): SanityTable {
         continue;
       }
 
-      row.cells.push({ uid: nanoid(), type: "text", value: text, ...attrObj });
+      row.cells.push({ uid: nanoid(), type: "text", value: parseInlineContent(text), ...attrObj });
     }
 
     if (currentSection === "footer") {
