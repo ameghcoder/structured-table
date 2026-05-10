@@ -27,7 +27,7 @@ import {
     Minimize2,
     X
 } from 'lucide-react'
-import { SanityTable, TableCell, TableRow } from 'structured-table'
+import { SanityTable, TableCell, TableRow, InlineNode } from 'structured-table'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { TextCellProps, LinkCellProps, ButtonCellProps } from 'structured-table'
@@ -414,26 +414,13 @@ export function VisualEditor({ table, setTable, tableTheme, setTableTheme, handl
     // Change cell type
     const handleChangeCellType = useCallback((cellUid: string, rowUid: string, section: 'header' | 'body' | 'footer', newType: 'text' | 'link' | 'button') => {
         updateCell(cellUid, rowUid, section, (cell) => {
+            const textValue = cell.type === 'text' ? getCellTextValue(cell.value) : cell.type === 'link' ? cell.text : cell.type === 'button' ? cell.text : ''
             if (newType === 'text') {
-                return {
-                    ...cell,
-                    type: 'text',
-                    value: cell.type === 'text' ? cell.value : (cell.type === 'link' ? cell.text : (cell.type === 'button' ? cell.text : '')),
-                } as TextCellProps
+                return { ...cell, type: 'text', value: textValue } as TextCellProps
             } else if (newType === 'link') {
-                return {
-                    ...cell,
-                    type: 'link',
-                    text: cell.type === 'text' ? cell.value : (cell.type === 'link' ? cell.text : (cell.type === 'button' ? cell.text : '')),
-                    href: cell.type === 'link' ? cell.href : '',
-                } as LinkCellProps
+                return { ...cell, type: 'link', text: textValue, href: cell.type === 'link' ? cell.href : '' } as LinkCellProps
             } else {
-                return {
-                    ...cell,
-                    type: 'button',
-                    text: cell.type === 'text' ? cell.value : (cell.type === 'link' ? cell.text : (cell.type === 'button' ? cell.text : '')),
-                    url: cell.type === 'button' ? cell.url : '',
-                } as ButtonCellProps
+                return { ...cell, type: 'button', text: textValue, url: cell.type === 'button' ? cell.url : '' } as ButtonCellProps
             }
         })
     }, [updateCell])
@@ -681,11 +668,12 @@ export function VisualEditor({ table, setTable, tableTheme, setTableTheme, handl
                                             <div className="space-y-1.5">
                                                 <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Content</label>
                                                 <textarea
-                                                    value={cell.value}
-                                                    onChange={(e) => updateCell(cellUid, rowUid, section, (c) => ({ ...c, value: e.target.value } as TextCellProps))}
+                                                    value={getCellTextValue(cell.value)}
+                                                    onChange={(e) => updateCell(cellUid, rowUid, section, (c) => ({ ...c, value: parseCellText(e.target.value, fastNanoid) } as TextCellProps))}
                                                     className="w-full min-h-[100px] p-3 text-sm bg-background border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none resize-none"
                                                     placeholder="Enter cell text..."
                                                 />
+                                                <p className="text-xs text-muted-foreground">Use <code className="bg-muted px-1 rounded">[br]</code> for a line break.</p>
                                             </div>
                                         )}
                                         {cell.type === 'link' && (
@@ -978,6 +966,28 @@ export function VisualEditor({ table, setTable, tableTheme, setTableTheme, handl
     )
 }
 
+// Converts InlineNode[] → STL string (e.g. "Hello[br]World") for textarea display
+function getCellTextValue(value: string | InlineNode[]): string {
+    if (typeof value === 'string') return value;
+    return value.map(node => {
+        if (node.type === 'string') return node.data;
+        if (node.type === 'html' && node.tag === 'br') return '[br]';
+        return '';
+    }).join('');
+}
+
+// Converts typed string back to InlineNode[] when [br] markers are present
+function parseCellText(text: string, genId: () => string): string | InlineNode[] {
+    if (!text.includes('[br]')) return text;
+    const parts = text.split('[br]');
+    const nodes: InlineNode[] = [];
+    parts.forEach((part, i) => {
+        if (part) nodes.push({ uid: genId(), type: 'string', data: part });
+        if (i < parts.length - 1) nodes.push({ uid: genId(), type: 'html', data: '', tag: 'br' });
+    });
+    return nodes;
+}
+
 function renderCellPreview(cell: TableCell) {
     return (
         <div className="relative group">
@@ -987,7 +997,18 @@ function renderCellPreview(cell: TableCell) {
                 )}
                 {cell.type === 'text' && (
                     <p className={`text-sm truncate max-w-[200px] ${cell.cellType === 'header' ? 'font-bold' : ''}`}>
-                        {cell.value || <span className="opacity-30 italic">Empty text</span>}
+                        {Array.isArray(cell.value)
+                            ? (cell.value.length === 0
+                                ? <span className="opacity-30 italic">Empty text</span>
+                                : cell.value.map(node =>
+                                    node.type === 'string'
+                                        ? <React.Fragment key={node.uid}>{node.data}</React.Fragment>
+                                        : node.type === 'html' && node.tag === 'br'
+                                            ? <br key={node.uid} />
+                                            : null
+                                ))
+                            : (cell.value || <span className="opacity-30 italic">Empty text</span>)
+                        }
                     </p>
                 )}
                 {cell.type === 'link' && (
