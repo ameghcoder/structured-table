@@ -1,6 +1,7 @@
 {
     "supported": [
         "react",
-        "vue"
+        "vue",
+        "svelte"
     ]
 }

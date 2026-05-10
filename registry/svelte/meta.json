@@ -1,0 +1,25 @@
+{
+    "name": "svelte-renderer",
+    "framework": "svelte",
+    "dependencies": [{"package": "structured-table", "version": "latest"}],
+    "rendererVersion": {
+        "latest": "v2",
+        "v2": "v2"
+    },
+    "entry": {"table": "index.ts"},
+    "files": [
+        "env.d.ts",
+        "register/index.ts",
+        "index.ts",
+        "style.css",
+        "table/TableView.svelte",
+        "cell/index.ts",
+        "cell/TextCell.svelte",
+        "cell/LinkCell.svelte",
+        "cell/ButtonCell.svelte"
+    ],
+    "constraints": {
+        "ssr": true,
+        "svelteVersion": "5"
+    }
+}
