@@ -1,0 +1,116 @@
+# Structured Table Project
+
+Structured Table Language (STL) is a lightweight, human-readable syntax designed to define complex, responsive tables easily. It solves the problem of writing tedious HTML or Markdown tables, particularly when dealing with rowspans, colspans, custom styling, or interactive elements like buttons.
+
+## Syntax Basics
+
+### Basic Table
+```stl
+#table
+cols: 3
+
+[header]
+First Name | Last Name | Age
+
+[body]
+John | Doe | 30
+Jane | Smith | 25
+```
+
+### Spanning (Rowspan / Colspan)
+Use `<` to span columns (colspan) leftwards.
+Use `^` to span rows (rowspan) upwards.
+```stl
+#table
+cols: 3
+[body]
+Header 1 | Header 2 | Header 3
+Span 2 Cols | < | Normal
+Normal | Span 2 Rows | Normal
+Normal | ^ | Normal
+```
+
+### Alignment
+Use `{align="left|center|right"}` at the start of a cell.
+```stl
+Name | {align="right"} $10.00
+```
+
+### Custom Classes
+Use `{class="my-class"}` at the start of a cell.
+```stl
+{class="text-red-500 font-bold"} Out of Stock
+```
+
+### Line Breaks
+Use `[br]` for inline line breaks within a cell.
+```stl
+123 Main St[br]Suite 400
+```
+
+### Buttons and Actions
+Use `{type="button" action="actionName" data="optionalData"}`. Renderers will emit `st-action` events.
+```stl
+{type="button" action="delete" data="123"} Delete
+```
+
+### Links
+Use `{type="link" href="https://example.com"}`
+```stl
+{type="link" href="/about" newTab="true"} About Us
+```
+
+## Renderers
+
+### React
+```bash
+npx stl-cli add react
+```
+Usage:
+```tsx
+import * as STLReact from './components/react'
+import { STL } from 'structured-table'
+
+const tableData = STL.parse(stlString)
+<STLReact.Table data={tableData} className="simple" />
+```
+
+### Vue
+```bash
+npx stl-cli add vue
+```
+Usage:
+```vue
+<script setup>
+import { STLTable } from './components/vue'
+import { STL } from 'structured-table'
+const tableData = STL.parse(stlString)
+</script>
+<template>
+  <STLTable :data="tableData" class="simple" />
+</template>
+```
+
+### Svelte
+```bash
+npx stl-cli add svelte
+```
+Usage:
+```svelte
+<script>
+  import Table from './components/svelte/Table.svelte'
+  import { STL } from 'structured-table'
+  const tableData = STL.parse(stlString)
+</script>
+<Table data={tableData} class="simple" />
+```
+
+## Sanity Studio Integration
+```bash
+npm install sanity-plugin-stl-table
+```
+Import `stlTableBlock` schema definition.
+```typescript
+import { stlTableBlock } from 'sanity-plugin-stl-table'
+```
+*Note: We recommend parsing `stlString` at runtime on the frontend rather than querying the deprecated `stlParsed` field.*

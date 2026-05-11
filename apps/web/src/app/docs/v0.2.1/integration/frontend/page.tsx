@@ -56,19 +56,12 @@ const myPortableTextComponents = {
       value: {
         _key: string;
         _type: string;
-        stlString?: string;
-        stlParsed?: string;
+        stlString: string;
       }
     }) => {
-      // Parse the pre-computed JSON string or fallback to raw STL string parsing
-      const parsedSTL = value.stlParsed 
-        ? JSON.parse(value.stlParsed)
-        : value.stlString 
-            ? STL.parse(value.stlString) 
-            : null;
+      // Parse the STL string
+      const parsedSTL = STL.parse(value.stlString);
       
-      if (!parsedSTL) return null;
-
       // Render the table
       return <STLReact.Table data={parsedSTL} className='border' />
     }

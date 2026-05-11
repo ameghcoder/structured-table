@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Book, FileText, ChevronDown, Code, Layers, Layout, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft, Monitor, Heading } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { Book, FileText, ChevronDown, Code, Layers, Layout, MousePointerClick, Link as LinkIcon, Maximize2, AlignLeft, Monitor, Heading, CornerDownLeft, Tag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
-const docsNavigation = [
+const docsNavigationLatest = [
     {
         title: 'Getting Started',
         items: [
@@ -22,6 +22,8 @@ const docsNavigation = [
             { title: 'Links', href: '/docs/stl-syntax/links', icon: LinkIcon },
             { title: 'Row & Col Span', href: '/docs/stl-syntax/spanning', icon: Maximize2 },
             { title: 'Alignment', href: '/docs/stl-syntax/alignment', icon: AlignLeft },
+            { title: 'Line Breaks', href: '/docs/stl-syntax/line-breaks', icon: CornerDownLeft, isNew: true },
+            { title: 'Classes', href: '/docs/stl-syntax/classes', icon: Tag, isNew: true },
             { title: 'cellType', href: '/docs/stl-syntax/celltype', icon: Heading },
         ],
     },
@@ -31,19 +33,57 @@ const docsNavigation = [
             { title: 'Overview', href: '/docs/stl-renderer', icon: Monitor },
             { title: 'React', href: '/docs/stl-renderer/react', icon: Code },
             { title: 'Vue', href: '/docs/stl-renderer/vue', icon: Layout },
+            { title: 'Svelte', href: '/docs/stl-renderer/svelte', icon: Layers, isNew: true },
         ],
     },
     {
         title: 'Integration',
         items: [
             { title: 'Sanity Studio', href: '/docs/integration/sanity-studio', icon: Layers },
-            { title: 'Frontend Usage', href: '/docs/integration/frontend', icon: Layout },
+            { title: 'Sanity: stlParsed', href: '/docs/integration/sanity-studio/stl-parsed', icon: FileText, isNew: true },
+            { title: 'Frontend Usage', href: '/docs/integration/frontend', icon: Layout, isUpdated: true },
+        ],
+    },
+]
+
+const docsNavigationV021 = [
+    {
+        title: 'Getting Started',
+        items: [
+            { title: 'Introduction', href: '/docs/v0.2.1', icon: FileText },
+        ],
+    },
+    {
+        title: 'STL Reference',
+        items: [
+            { title: 'Overview', href: '/docs/v0.2.1/stl-syntax', icon: Code },
+            { title: 'Buttons', href: '/docs/v0.2.1/stl-syntax/buttons', icon: MousePointerClick },
+            { title: 'Links', href: '/docs/v0.2.1/stl-syntax/links', icon: LinkIcon },
+            { title: 'Row & Col Span', href: '/docs/v0.2.1/stl-syntax/spanning', icon: Maximize2 },
+            { title: 'Alignment', href: '/docs/v0.2.1/stl-syntax/alignment', icon: AlignLeft },
+            { title: 'cellType', href: '/docs/v0.2.1/stl-syntax/celltype', icon: Heading },
+        ],
+    },
+    {
+        title: 'STL Renderers',
+        items: [
+            { title: 'Overview', href: '/docs/v0.2.1/stl-renderer', icon: Monitor },
+            { title: 'React', href: '/docs/v0.2.1/stl-renderer/react', icon: Code },
+            { title: 'Vue', href: '/docs/v0.2.1/stl-renderer/vue', icon: Layout },
+        ],
+    },
+    {
+        title: 'Integration',
+        items: [
+            { title: 'Sanity Studio', href: '/docs/v0.2.1/integration/sanity-studio', icon: Layers },
+            { title: 'Frontend Usage', href: '/docs/v0.2.1/integration/frontend', icon: Layout },
         ],
     },
 ]
 
 const versions = [
-    { label: 'v0.2.1', value: 'v1', current: true },
+    { label: 'v0.3.0 (Latest)', value: 'v0.3.0', path: '/docs' },
+    { label: 'v0.2.1', value: 'v0.2.1', path: '/docs/v0.2.1' },
 ]
 
 export default function DocsLayout({
@@ -52,11 +92,15 @@ export default function DocsLayout({
     children: React.ReactNode
 }) {
     const pathname = usePathname()
+    const router = useRouter()
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const currentVersion = versions.find(v => v.current) || versions[0]
+    
+    const isV021 = pathname?.startsWith('/docs/v0.2.1')
+    const currentVersion = isV021 ? versions[1] : versions[0]
+    const currentNavigation = isV021 ? docsNavigationV021 : docsNavigationLatest
 
     const isActive = (href: string) => {
-        if (href === '/docs') return pathname === '/docs'
+        if (href === '/docs' || href === '/docs/v0.2.1') return pathname === href
         return pathname?.startsWith(href)
     }
 
@@ -86,8 +130,8 @@ export default function DocsLayout({
                                     {versions.map((version) => (
                                         <DropdownMenuItem
                                             key={version.value}
-                                            disabled={!version.current}
-                                            className={version.current ? 'bg-primary/10' : ''}
+                                            onClick={() => router.push(version.path)}
+                                            className={currentVersion.value === version.value ? 'bg-primary/10' : 'cursor-pointer'}
                                         >
                                             {version.label}
                                         </DropdownMenuItem>
@@ -104,7 +148,7 @@ export default function DocsLayout({
                     {/* Sidebar - Removed bg-muted/30 */}
                     <aside className="hidden lg:block w-64 border-r h-[calc(100vh-3.5rem)] sticky top-14">
                         <nav className="p-4 space-y-8 overflow-y-auto h-full">
-                            {docsNavigation.map((section) => (
+                            {currentNavigation.map((section) => (
                                 <div key={section.title}>
                                     <h3 className="mb-3 text-sm font-medium text-foreground px-2">
                                         {section.title}
@@ -124,6 +168,16 @@ export default function DocsLayout({
                                                     >
                                                         <Icon className="h-4 w-4 opacity-70" />
                                                         <span>{item.title}</span>
+                                                        {(item as any).isNew && (
+                                                            <span className="ml-auto text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-md font-semibold leading-none">
+                                                                New
+                                                            </span>
+                                                        )}
+                                                        {(item as any).isUpdated && (
+                                                            <span className="ml-auto text-[10px] bg-amber-500/20 text-amber-500 px-1.5 py-0.5 rounded-md font-semibold leading-none">
+                                                                Updated
+                                                            </span>
+                                                        )}
                                                     </Link>
                                                 </li>
                                             )
@@ -154,7 +208,7 @@ export default function DocsLayout({
                             />
                             <aside className="fixed left-0 top-14 z-50 h-[calc(100vh-3.5rem)] w-72 border-r bg-background lg:hidden overflow-y-auto slide-in-from-left duration-200 animate-in">
                                 <nav className="p-6 space-y-8">
-                                    {docsNavigation.map((section) => (
+                                    {currentNavigation.map((section) => (
                                         <div key={section.title}>
                                             <h3 className="mb-3 text-sm font-medium text-foreground px-2">
                                                 {section.title}
@@ -175,6 +229,16 @@ export default function DocsLayout({
                                                             >
                                                                 <Icon className="h-4 w-4 opacity-70" />
                                                                 <span>{item.title}</span>
+                                                                {(item as any).isNew && (
+                                                                    <span className="ml-auto text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-md font-semibold leading-none">
+                                                                        New
+                                                                    </span>
+                                                                )}
+                                                                {(item as any).isUpdated && (
+                                                                    <span className="ml-auto text-[10px] bg-amber-500/20 text-amber-500 px-1.5 py-0.5 rounded-md font-semibold leading-none">
+                                                                        Updated
+                                                                    </span>
+                                                                )}
                                                             </Link>
                                                         </li>
                                                     )
